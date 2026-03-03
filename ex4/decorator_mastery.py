@@ -59,7 +59,7 @@ class MageGuild:
         return f"Successfully cast {spell_name} with {power} power"
 
 
-def main():
+def main() -> None:
     print("--- Bienvenue dans la guilde des mages ---")
     mage_name = "Gandalf le Gris"
     if MageGuild.validate_mage_name(mage_name):
