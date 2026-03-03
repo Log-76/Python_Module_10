@@ -46,14 +46,17 @@ def target_is_small(target: str) -> str: return len(target) < 5
 
 selective_lightning = conditional_caster(target_is_small, lightning)
 # 2. Test Combiner
+print("----------spell_combiner----------")
 double_sort = spell_combiner(fire, ice)
 print(double_sort("Orc"))
 # 3. Test Amplifier
+print("\n----------power_amplifier----------")
 super_fire = power_amplifier(fire2, 3)
 print(super_fire(10))
 # 4. Test Séquence
+print("\n----------spell_sequence----------")
 mon_combo = spell_sequence([fire, ice])
 print(mon_combo("Gobelin"))
-print("\n--- Test 5: Conditional Caster ---")
+print("\n----------Conditional Caster ----------")
 print(f"Test Orc : {selective_lightning('Orc')}")
 print(f"Test Dragon : {selective_lightning('Dragon')}")

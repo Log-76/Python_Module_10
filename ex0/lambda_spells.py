@@ -22,13 +22,14 @@ def mage_stats(mages: list[dict]) -> dict:
     return result
 
 
+print("----------artifact_sorter----------")
 print(artifact_sorter([{"name": "lol", "power": 2, "type": "degat"},
                        {"name": "lol2", "power": 30, "type": "degat"}]))
-
+print("\n----------power_filter----------")
 print(power_filter([{"name": "lol", "power": 2, "type": "degat"},
                     {"name": "lol2", "power": 30, "type": "degat"}], 5))
-
+print("\n----------spell_transformer----------")
 print(spell_transformer(["lol", "degat", "lol2", "degat"]))
-
+print("\n----------mage_stats----------")
 print(mage_stats([{"name": "lol", "power": 2, "type": "degat"},
                   {"name": "lol2", "power": 5, "type": "degat"}]))
