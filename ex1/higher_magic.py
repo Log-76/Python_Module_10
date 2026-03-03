@@ -2,21 +2,20 @@ from typing import Any
 
 
 def spell_combiner(spell1: callable, spell2: callable) -> callable:
-    def new_spell(*args, **kwargs) -> str:
-        return spell1(*args, **kwargs) + spell2(*args, **kwargs)
+    def new_spell(*args: Any, **kwargs: Any) -> tuple:
+        return spell1(*args, **kwargs), spell2(*args, **kwargs)
 
     return new_spell
 
 
 def power_amplifier(base_spell: callable, multiplier: int) -> callable:
-    def multiplicateur(*args, **kwargs):
-        # On appelle le sort de base et on multiplie son résultat
+    def multiplicateur(*args: Any, **kwargs: Any) -> int | float:
         return base_spell(*args, **kwargs) * multiplier
     return multiplicateur
 
 
 def conditional_caster(condition: callable, spell: callable) -> callable:
-    def verif(*args, **kwargs):
+    def verif(*args: Any, **kwargs: Any) -> Any:
         if condition(*args, **kwargs):
             return spell(*args, **kwargs)
         else:
@@ -25,53 +24,36 @@ def conditional_caster(condition: callable, spell: callable) -> callable:
 
 
 def spell_sequence(spells: list[callable]) -> callable:
-    # *args et **kwargs permettent de recevoir
-    # n'importe quel argument (ex: cible, puissance)
-    def cast_all(*args, **kwargs) -> list[Any]:
+    def cast_all(*args: Any, **kwargs: Any) -> list[Any]:
         results = []
         for s in spells:
-            # On exécute le sort 's' avec les arguments reçus
             res = s(*args, **kwargs)
-            # On ajoute le résultat du sort à notre liste
             results.append(res)
-        # On renvoie la liste finale des résultats
         return results
-    # IMPORTANT : On renvoie la fonction elle-même
-    # (la recette), pas son exécution !
     return cast_all
 
 
 # 1. Sorts de base
-def fire(target): return f"🔥 sur {target}"
-def ice(target): return f"❄️ sur {target}"
+def fire(target) -> str: return f"🔥 sur {target}"
+def fire2() -> str: return 10
+def ice(target) -> str: return f"❄️ sur {target}"
 # Un sort simple
-def lightning(target): return f"⚡ Éclair sur {target}"
-# Une condition : ne marche que si le nom de la cible est court ( < 5 lettres)
-def target_is_small(target): return len(target) < 5
+def lightning(target) -> str: return f"⚡ Éclair sur {target}"
+
+
+def target_is_small(target) -> str: return len(target) < 5
 
 
 selective_lightning = conditional_caster(target_is_small, lightning)
 # 2. Test Combiner
 double_sort = spell_combiner(fire, ice)
 print(double_sort("Orc"))
-# Affiche: 🔥 sur Orc❄️ sur Orc
-
 # 3. Test Amplifier
-super_fire = power_amplifier(fire, 3)
-print(super_fire("Troll"))
-# Affiche: 🔥 sur Troll🔥 sur Troll🔥 sur Troll
-
+super_fire = power_amplifier(fire2, 3)
+print(super_fire(10))
 # 4. Test Séquence
 mon_combo = spell_sequence([fire, ice])
 print(mon_combo("Gobelin"))
-# Affiche: ['🔥 sur Gobelin', '❄️ sur Gobelin']
-
 print("\n--- Test 5: Conditional Caster ---")
-
-# Cas 1 : La cible est "Orc" (3 lettres, < 5) -> Succès
 print(f"Test Orc : {selective_lightning('Orc')}")
-# Affiche: ⚡ Éclair sur Orc
-
-# Cas 2 : La cible est "Dragon" (6 lettres, > 5) -> Échec
 print(f"Test Dragon : {selective_lightning('Dragon')}")
-# Affiche: Spell fizzled

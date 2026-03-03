@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def mage_counter() -> callable:
     score = 0
 
@@ -9,22 +12,22 @@ def mage_counter() -> callable:
 
 
 def spell_accumulator(initial_power: int) -> callable:
-    power = 0
+    power = initial_power
 
-    def accumulator() -> int:
+    def accumulator(power_to_add: int) -> int:
         nonlocal power
-        power += initial_power
+        power += power_to_add
         return power
 
     return accumulator
 
 
 def enchantment_factory(enchantment_type: str) -> callable:
-    result = " sword"
+    result = ""
 
-    def accumulator() -> int:
+    def accumulator(item_name: str) -> str:
         nonlocal result
-        result = enchantment_type + result
+        result = f"{enchantment_type} {item_name}"
         return result
     return accumulator
 
@@ -32,12 +35,12 @@ def enchantment_factory(enchantment_type: str) -> callable:
 def memory_vault() -> dict[str, callable]:
     registre = {}
 
-    def store(key: str, value: any):
+    def store(key: str, value: Any) -> None:
         nonlocal registre
         registre[key] = value
 
-    def recall(key: str):
-        return registre.get(key, "Mémoire introuvable")
+    def recall(key: str) -> str | Any:
+        return registre.get(key, "Memory not found")
 
     return {"store": store,
             "recall": recall}
@@ -51,14 +54,14 @@ print("id", mage())
 print("id", mage())
 print("----------spell_accumulator----------")
 power = spell_accumulator(15)
-print(power())
-print(power())
-print(power())
+print(power(30))
+print(power(9))
+print(power(47))
 print("----------enchantment_factory----------")
 sword = enchantment_factory("Flaming")
-print(sword())
+print(sword("sword"))
 sword = enchantment_factory("Frozen")
-print(sword())
+print(sword("sword"))
 print("----------memory_vault----------")
 vault = memory_vault()
 vault["store"]("secret_code", 42)

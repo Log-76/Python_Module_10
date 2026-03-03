@@ -10,15 +10,15 @@ def power_filter(mages: list[dict], min_power: int) -> list[dict]:
 
 
 def spell_transformer(spells: list[str]) -> list[str]:
-    result = list(map(lambda spell: "*" + spell["name"] + "*", spells))
+    result = list(map(lambda spell: "* " + spell + " *", spells))
     return result
 
 
 def mage_stats(mages: list[dict]) -> dict:
-    result = {"max_power": max(mages, key=lambda mage: mage["power"]),
-              "min_power": min(mages, key=lambda mage: mage["power"]),
-              "avg_power": sum(map(lambda mage: mage["power"], mages))
-              / len(mages)}
+    powers = list(map(lambda mage: mage["power"], mages))
+    result = {"max_power": max(powers),
+              "min_power": min(powers),
+              "avg_power": round(sum(powers) / len(powers), 2)}
     return result
 
 
@@ -28,8 +28,7 @@ print(artifact_sorter([{"name": "lol", "power": 2, "type": "degat"},
 print(power_filter([{"name": "lol", "power": 2, "type": "degat"},
                     {"name": "lol2", "power": 30, "type": "degat"}], 5))
 
-print(spell_transformer([{"name": "lol", "power": 2, "type": "degat"},
-                         {"name": "lol2", "power": 30, "type": "degat"}]))
+print(spell_transformer(["lol", "degat", "lol2", "degat"]))
 
 print(mage_stats([{"name": "lol", "power": 2, "type": "degat"},
-                  {"name": "lol2", "power": 30, "type": "degat"}]))
+                  {"name": "lol2", "power": 5, "type": "degat"}]))
