@@ -34,14 +34,14 @@ def spell_sequence(spells: list[callable]) -> callable:
 
 
 # 1. Sorts de base
-def fire(target) -> str: return f"🔥 sur {target}"
-def fire2() -> str: return 10
-def ice(target) -> str: return f"❄️ sur {target}"
+def fire(target: str) -> str: return f"🔥 sur {target}"
+def fire2(target: str) -> str: return 10
+def ice(target: str) -> str: return f"❄️ sur {target}"
 # Un sort simple
-def lightning(target) -> str: return f"⚡ Éclair sur {target}"
+def lightning(target: str) -> str: return f"⚡ Éclair sur {target}"
 
 
-def target_is_small(target) -> str: return len(target) < 5
+def target_is_small(target: str) -> str: return len(target) < 5
 
 
 selective_lightning = conditional_caster(target_is_small, lightning)

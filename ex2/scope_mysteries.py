@@ -33,14 +33,14 @@ def enchantment_factory(enchantment_type: str) -> callable:
 
 
 def memory_vault() -> dict[str, callable]:
-    registre = {}
+    __registre = {}
 
     def store(key: str, value: Any) -> None:
-        nonlocal registre
-        registre[key] = value
+        nonlocal __registre
+        __registre[key] = value
 
     def recall(key: str) -> str | Any:
-        return registre.get(key, "Memory not found")
+        return __registre.get(key, "Memory not found")
 
     return {"store": store,
             "recall": recall}

@@ -63,7 +63,7 @@ print(f" > Sort le plus puissant : {max_power} (Attendu: 30)")
 print("\n[2] Test de partial_enchanter :")
 
 
-def base_spell(power, element, target) -> str:
+def base_spell(power: int, element: str, target: str) -> str:
     return f"Enchantement {element} sur {target} (Force: {power})"
 
 
